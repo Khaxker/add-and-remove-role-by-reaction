@@ -1,1 +1,1 @@
-# discord.js-add-and-remove-reaction-role
+# discord.js add and remove role by reaction
