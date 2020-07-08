@@ -1,58 +1,41 @@
-const Discord = require("discord.js");
-const client = new Discord.Client();
-const prefix = "!";
-const token = "Token Here";              //    Token Here
-//    Add emoji name
-var emojiname = ["",""];
+const Discord = require("discord.js"),
+    client = new Discord.Client,
+    prefix = "!",
+    token = "Token Here"; //discord token
 
-//    Add role name
-var rolename=["",""];
+var emojiname = ["", ""],
+    rolename = ["", ""];
 
-
-client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}`);
+client.on("ready", () => {
+    console.log(`Logged in as ${client.user.tag}`)
 });
 
-
-
-client.on('message', msg => {
-
-if(msg.content.startsWith(prefix+"reaction")){
-  if(!msg.channel.guild) return;
-  for(let n in emojiname){
-  var emoji =[msg.guild.emojis.find(r => r.name == emojiname[n])];
-  for(let i in emoji){
-   msg.react(emoji[i]);
-  }
- }
-}
+client.on("message", e => {
+    if (e.content.startsWith(prefix + "reaction")) {
+        if (!e.channel.guild) return;
+        for (let o in emojiname) {
+            var n = [e.guild.emojis.find(e => e.name == emojiname[o])];
+            for (let o in n) e.react(n[o])
+        }
+    }
 });
 
-
-
-client.on("messageReactionAdd",(reaction,user)=>{
-  if(!user) return;
-  if(user.bot)return;
-  if(!reaction.message.channel.guild) return;
-  for(let n in emojiname){
-  if(reaction.emoji.name == emojiname[n]){
-    let role = reaction.message.guild.roles.find(r => r.name == rolename[n]);          
-    reaction.message.guild.member(user).addRole(role).catch(console.error);
-  }
-}
+client.on("messageReactionAdd", (e, n) => {
+    if (n && !n.bot && e.message.channel.guild)
+        for (let o in emojiname)
+            if (e.emoji.name == emojiname[o]) {
+                let i = e.message.guild.roles.find(e => e.name == rolename[o]);
+                e.message.guild.member(n).addRole(i).catch(console.error)
+            }
 });
 
-
-client.on("messageReactionRemove",(reaction,user)=>{
-  if(!user) return;
-  if(user.bot)return;
-  if(!reaction.message.channel.guild) return;
-  for(let n in emojiname){
-  if(reaction.emoji.name == emojiname[n]){
-    let role = reaction.message.guild.roles.find(r => r.name == rolename[n]);   
-    reaction.message.guild.member(user).removeRole(role).catch(console.error);
-  }
-  }
+client.on("messageReactionRemove", (e, n) => {
+    if (n && !n.bot && e.message.channel.guild)
+        for (let o in emojiname)
+            if (e.emoji.name == emojiname[o]) {
+                let i = e.message.guild.roles.find(e => e.name == rolename[o]);
+                e.message.guild.member(n).removeRole(i).catch(console.error)
+            }
 });
 
 client.login(token);
